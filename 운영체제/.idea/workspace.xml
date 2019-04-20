@@ -2,9 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="edfede0a-b700-43a3-a855-3acea01febea" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/Airline_Reservation.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/Airline_Reservation.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/Logical_Schema.hwp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/Report 1.hwp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/Report 1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/airline_reservation.mwb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/airline_reservation.mwb.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.mwb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.mwb.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/운영체제.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/운영체제.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/._HW-Freespace.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/._README-malloc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/._malloc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/README-malloc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/malloc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/._HW-MLFQ.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/._README-mlfq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/._mlfq.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/README-mlfq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/._HW-Paging-Policy.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/._README-paging-policy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/._paging-policy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/README-paging-policy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/paging-policy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Scheduler/._HW-Scheduler.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-Scheduler/HW-Scheduler.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/._HW-Segmentation.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/._README-segmentation" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/._segmentation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/README-segmentation" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/segmentation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/AddressSpace.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/AddressSpace.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/AddressSpace.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/AddressSpace.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Intro.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Intro.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Intro.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Paging.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Paging.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Paging_SmallerTables.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging_SmallerTables.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Process.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Process.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Process.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Process.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Scheduling.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Scheduling.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Scheduling.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Scheduling.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/정리/Segmentation.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Segmentation.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../중간고사.hwp" beforeDir="false" afterPath="$PROJECT_DIR$/../중간고사.hwp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,16 +70,14 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/all/HW-MLFQ/mlfq.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-              <folding>
-                <element signature="e#24#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/all/HW-Paging-Policy/paging-policy.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -44,6 +89,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py" />
+        <option value="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/malloc.py" />
       </list>
     </option>
   </component>
@@ -75,27 +121,7 @@
               <item name="운영체제" type="b2602c69:ProjectViewProjectNode" />
               <item name="운영체제" type="462c0819:PsiDirectoryNode" />
               <item name="all" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-MLFQ" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="운영체제" type="b2602c69:ProjectViewProjectNode" />
-              <item name="운영체제" type="462c0819:PsiDirectoryNode" />
-              <item name="all" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-MLFQ" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-MLFQ" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="운영체제" type="b2602c69:ProjectViewProjectNode" />
-              <item name="운영체제" type="462c0819:PsiDirectoryNode" />
-              <item name="all" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-Paging-LinearTranslate" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="운영체제" type="b2602c69:ProjectViewProjectNode" />
-              <item name="운영체제" type="462c0819:PsiDirectoryNode" />
-              <item name="all" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-Paging-LinearTranslate" type="462c0819:PsiDirectoryNode" />
-              <item name="HW-Paging-LinearTranslate" type="462c0819:PsiDirectoryNode" />
+              <item name="HW-Freespace" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="운영체제" type="b2602c69:ProjectViewProjectNode" />
@@ -169,7 +195,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24968314" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24968314" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -196,6 +222,8 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py" />
+    <entry file="file://$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/malloc.py" />
     <entry file="file://$PROJECT_DIR$/all/HW-Paging-LinearTranslate/HW-Paging-LinearTranslate/paging-linear-translate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1408">
@@ -203,15 +231,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-          <folding>
-            <element signature="e#24#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/all/HW-MLFQ/mlfq.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/all/HW-Paging-Policy/paging-policy.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

@@ -1,4 +1,4 @@
-# Paging Introduction
+# Paging - Introduction
 - Paging : Address Space를 고정된 크기를 가진 페이지로 나눔
 - 페이징을 하면 물리 메모리도 Page Frame이라는 단위로 나눠짐
 - 프로세스별로 페이지 테이블(Virtual Address -> Physical Address)이 필요함

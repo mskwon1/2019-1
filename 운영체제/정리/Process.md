@@ -1,4 +1,4 @@
-# The Abstraction
+# Process - The Abstraction
 - CPU Virtualizing : 많은 CPU가 존재하는 것처럼 보이게 하는 것
   Time sharing : 하나의 프로세스를 실행하다가, 잠시 멈추고 다른 프로세스를 실행하는 것 / 잠재적 비용은 성능
 ## Process

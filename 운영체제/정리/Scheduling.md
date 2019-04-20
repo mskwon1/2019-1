@@ -1,4 +1,4 @@
-# Introduction
+# Scheduling - Introduction
 ## Workload Assumptions
 1. 모든 job이 같은 시간만큼 걸린다
 2. 모든 job이 같은 시간에 도착한다

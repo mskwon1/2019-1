@@ -1,4 +1,4 @@
-# Abstraction
+# Address Space - Abstraction
 ## Memory Virtualization
 - 운영체제가 물리적 메모리를 가상화해서 프로세스별로 가상의 메모리공간을 만들고, 각각의 프로세스가 모든 메모리를 사용하는 것처럼 보이게 하는 것
 - 프로그래밍에서 사용하기 쉬움
