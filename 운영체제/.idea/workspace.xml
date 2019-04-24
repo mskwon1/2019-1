@@ -2,56 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="edfede0a-b700-43a3-a855-3acea01febea" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/Airline_Reservation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/Airline_Reservation.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/Logical_Schema.hwp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/Report 1.hwp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/Report 1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/airline_reservation.mwb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/airline_reservation.mwb.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.mwb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.mwb.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../데이터베이스/kleague.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/._HW-Freespace.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/._README-malloc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/._malloc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/README-malloc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Freespace/HW-Freespace/malloc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/._HW-MLFQ.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/._README-mlfq" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/._mlfq.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/README-mlfq" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-MLFQ/HW-MLFQ/mlfq.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/._HW-Paging-Policy.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/._README-paging-policy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/._paging-policy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/README-paging-policy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Paging-Policy/HW-Paging-Policy/paging-policy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Scheduler/._HW-Scheduler.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-Scheduler/HW-Scheduler.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/._HW-Segmentation.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/._README-segmentation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/._segmentation.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/README-segmentation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/all/HW-segmentation/HW-Segmentation/segmentation.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/AddressSpace.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/AddressSpace.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/AddressSpace.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/AddressSpace.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Intro.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Intro.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Intro.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Paging.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Paging.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Paging_SmallerTables.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Paging_SmallerTables.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Process.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Process.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Process.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Process.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Scheduling.md" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Scheduling.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Scheduling.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Scheduling.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/정리/Segmentation.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/정리/Segmentation.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../중간고사.hwp" beforeDir="false" afterPath="$PROJECT_DIR$/../중간고사.hwp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,12 +26,26 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/all/HW-Paging-Policy/paging-policy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="170" column="42" selection-start-line="170" selection-start-column="42" selection-end-line="170" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/all/HW-segmentation/segmentation.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>clockbit</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -105,6 +70,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -132,7 +98,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -235,6 +200,13 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/all/HW-Paging-Policy/paging-policy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="170" column="42" selection-start-line="170" selection-start-column="42" selection-end-line="170" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/all/HW-segmentation/segmentation.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
