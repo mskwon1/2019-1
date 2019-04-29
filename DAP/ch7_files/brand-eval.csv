@@ -1,0 +1,7 @@
+# This is an evaluation of clothing brands.
+BrandID,Name,Quality,Price,After Service
+010,GAP,90,85,80
+012,H&M,95,,82
+013,"Lands' End",88,90,75
+014,UNIQLO,75,95,90
+015,ZARA,80,83,86

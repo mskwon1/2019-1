@@ -1,0 +1,2 @@
+[1] "Fahrenheit = 32"
+[1] "Celsius = 0"
