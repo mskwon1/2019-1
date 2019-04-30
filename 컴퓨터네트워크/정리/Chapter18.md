@@ -261,3 +261,268 @@
 - Choke-Packet Method와 다른 개념, 다른 패킷이 사용됨
 - Congested 시그널이 데이터와 함께 보내짐(Piggybacking)
 - Forward/Backward 양쪽에서 발생 가능함
+
+## IPv4 Addresses
+
+- 호스트/라우터의 **연결을 정의**하는 32비트 주소
+- 장치가 다른곳으로 이동하면, IP 주소가 바뀔 수 있음
+- 전세계적으로 Unique
+
+### Address Space
+
+- 프로토콜이 사용하는 **총 주소의 수**
+- 프로콜이 주소 정의를 위해 b개의 비트를 사용하면,  address space는 2^b
+
+- IPv4는 32비트 주소, 따라서 address space의 크기가 2^32
+  - 제한사항이 없을시 , 40억개 이상의 장치를 인터넷에 연결시킬 수 있음
+
+#### Notations
+
+- binary (base 2)
+
+  ![1556599493125](../../typora_images/1556599493125.png)
+
+- dotted-decimal (base 256)
+
+  ![1556599504165](../../typora_images/1556599504165.png)
+
+- hexadecimal (base 16)
+
+  ![1556599511260](../../typora_images/1556599511260.png)
+
+### Hierarchy
+
+- prefix : **네트워크**를 정의
+  - Classful Addressing
+  - Classless Addressing
+- suffix : **노드**를 정의(장치의 인터넷 연결)
+
+![1556593958488](../../typora_images/1556593958488.png)
+
+#### Classful Addressing
+
+- 초기 디자인은 **길이가 고정된 Prefix** 사용
+
+  - 크고 작은 네트워크를 모두 수용하기 위해 3개의 길이가 채용(8, 16, 24)
+
+  ![1556599695632](../../typora_images/1556599695632.png)
+
+- 전체 Address Space가 5개의 Class로 나눠짐
+
+  - Class A : 8비트, 첫 비트는 Class 구분(**0**)  / 나머지 7비트로 **네트워크 ID**
+  - Class B : 16비트, 첫 2비트는 Class 구분(**10**) / 나머지 14비트로 **네트워크 ID**
+  - Class C : 24비트, 첫 3비트는 Class 구분(**110**) / 나머지 21비트로 **네트워크 ID**
+  - Class D : 첫 4비트는 Class 구분(**1110**), Prefix/Suffix 구분이 **없음**
+    - **Multicast** address에 사용
+  - Class E : 첫 4비트는 Class 구분(**1111**), Prefix/Suffix 구분이 **없음**
+    - **Reserve**용
+
+![1556594802531](../../typora_images/1556594802531.png)
+
+- 현재는 잘 안쓰임
+
+##### Address Depletion 
+
+- 주어진 주소를 다 사용해 더 이상 사용할 주소가 없는 상황
+
+- Class A : **128개의 네트워크만** 사용가능 / 한 네트워크에 2^24개의 노드를 필요로 함
+- Class C : 2^21개의 네트워크에서 사용가능 / 한 네트워크에 **2^8개의 노드만** 수용 가능
+
+##### Subnetting & Supernetting
+
+- Subnetting : Class **A / B**가 여러개의 subnet으로 **나눠짐**
+- Supernetting : Class **C** 블록 여러개를 **합쳐** 256개의 주소 이상을 필요로 하는 네트워크에서 사용
+- 장기적으로 봤을 때, 더 큰 Address Space가 필요하다는 결론이 남
+  - IP 주소의 길이가 더 길어져야 함
+  - IP packet의 포맷을 바꿔야 함
+
+#### Classless Addressing
+
+- 장기적으로 IPv6라는 대안이 있지만, 단기적 솔루션으로 **같은 Address Space를 사용**하는 솔루션
+
+- Class Previlege가 사라짐
+
+- 전체 Address Space가 Variable Length 블록들로 이루어짐
+
+- Prefix : 블럭(네트워크)를 뜻함, Suffix : 노드를 뜻함
+
+- Prefix Length
+
+  - CIDR(Classless inter-domain routing)
+  - / 이후에 prefix의 길이 **n**을 전달
+    - ex) 12.24.76.8/**8**, 23.14.67.92/**12**, 220.8.24.255/**25**
+
+  ![1556594766363](../../typora_images/1556594766363.png)
+
+  
+
+- 주소 하나에 3가지의 정보가 들어있음
+
+  - 블록안의 주소의 수 : N = 2^32-**n**
+
+    ![1556600511468](../../typora_images/1556600511468.png)
+
+  - **첫번째** 주소 : n개의 왼쪽비트는 유지(prefix), **32-n개의 비트는 0**으로(suffix)
+
+    ![1556600522522](../../typora_images/1556600522522.png)
+
+  - **마지막** 주소 : n개의 왼쪽비트는 유지(prefix), **32-n개의 비트는 1**으로(suffix)
+
+    ![1556600529899](../../typora_images/1556600529899.png)
+
+- 주소 그 자체만으로는 해당 주소가 어디 블록에 속하는지 알수가 없음
+
+##### Address Masking 
+
+- 마스크로 주어진 수와 주소를 비교해보는 형식
+  - 마스크의 예시 : FF FF FF E0
+
+- 주소의 수 : N = NOT(mask) + 1
+- 첫번째 주소 : (address) and (mask)
+- 마지막 주소 : (address) or (NOT mask)
+
+##### Network Address
+
+- 어떤 주소든 그 주소값으로 블럭에 대한 정보를 알 수 있음
+- 첫번째 주소인 Netowrk Address는 **패킷을 라우팅** 할 때 사용
+  - m개의 네트워크, m개의 interface를 가진 라우터가 있다고 가정
+  - 라우터는 패킷을 어느 네트워크로 보내야 하는지 알아야 함
+  - 네트워크 주소를 찾으면, 라우터가 포워딩 테이블에 따라 대응하는 interface를 찾아서 보냄
+- 네트워크 주소는 **네트워크의 ID**역할
+
+##### Block Allocation
+
+- **ICANN** (Internet Corporation for Assigned Names and Numbers)이 하는 일
+  - 보통 ICANN이 **개인 인터넷 유저**에게 주소를 할당해주지는 않음, **ISP**가 함
+- 제약사항
+  - 요청받은 주소의 숫자 N이 power of 2이여야 함
+    - prefix의 갯수를 의미하는 n이 정수여야하기 때문
+  - 요청받은 블록이 **충분한 숫자의 가용한 연속적인 주소**를 가지고 있어야 함
+  - 블럭의 첫번째 주소는 블럭안의 총 주소의 개수(**N**)로 Divisible해야 함
+    - prefix 뒤의 32-n개의 0으로 구성되기 때문
+    - 첫번째 주소의 십진수 값 = prefix * 2^32-n = prefix * **N**
+- 예시) ISP가 1000개의 주소를 할당 할 수 있는 블록을 요청
+  - 2^10 = 1024개의 주소를 할당 받을 수 있는 블록을 줌(prefix len = **22**)
+  - 가용한 블럭 18.14.12.0/**22**을 제공
+  - 1024로 나눠지는 주소임
+
+##### Subnetting
+
+- 일정 범위의 주소를 허가받은 단체(ISP)는 해당 범위를 **작은 범위로 쪼개서** subnetwork에 assign 가능
+
+- subnetwork를 subnetwork로 쪼갤 수 있음
+
+- Steps
+
+  1. 각 subnetwork안의 주소의 수는 2의 몇승이여야 함
+  2. 각 subnetwork의 prefix의 길이는 32 - log_2 N_sub
+  3. 각 subnetwork의 시작주소는 해당 subnetwork안의 주소의 수로 divisible해야함
+
+- 예시) 14.24.74.0/24 를 각각 10개/60개/120개 주소를 필요로하는 subnetwork로 쪼개기
+
+  - 큰것부터 작은거순서로 나눠줌
+    - 120 : 128만큼 필요 -> 14.24.74.0/25 ~ 14.24.74.127/25
+    - 60 : 64만큼 필요 -> 14.24.74.128/26 ~ 14.24.74.191/26
+    - 10 : 16만큼 필요 -> 14.24.74.192/28 ~ 14.24.74.207/28
+  - 남은 공간은 48, 미래에 사용(prefix의 길이는 아직 모름)
+
+  ![1556601977821](../../typora_images/1556601977821.png)
+
+##### Address Aggregation
+
+- Address Summarization, Route Summarization과 같은 의미
+- 주소의 블럭들이 합쳐져서 큰 블럭을 형성하면, 큰 블럭의 prefix에 따라서 routing이 이뤄질 수 있음
+- ICANN이 ISP에게 큰 블럭을 할당
+- 각각의 ISP가 할당된 블럭을 작은 subblock으로 나눔, 고객들에게 제공
+
+##### Special Addresses
+
+- This-host Address
+  - 0.0.0.0/32
+  - 호스트가 IP datagram을 보내고자 하는데, 자신의 IP주소를 모를 때 source address로 사용
+- Limited-broadcast Address
+  - 255.255.255.255/32
+  - 라우터/호스트가 해당 네트워크에 있는 모든 장치에 datagram을 보내야 할 때 사용
+  - 해당 패킷은 네트워크 밖으로 못나감
+- Loopback Address
+  - 127.0.0.0/8
+  - 호스트를 절대 떠나지 않음
+  - 클라이언트-서버 프로그래밍에서 서버의 주소로 쓰임 (**Localhost**)
+- Private Address
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+  - 169.254.0.0/16
+  - NAT에서 사용 
+- Multicast Address
+  - 222.0.0.0/4
+
+### DHCP
+
+- 어떤 단체에게 주소의 블럭이 할당된 뒤, 네트워크 관리자가 **개인 호스트/라우터에게 주소를 할당** 할 수 있음
+- DHCP(Dynamic Host Configuration Protocol) : 주소 할당을 자동으로 할 수 있다
+- 클라이언트-서버 패러다임을 사용하는 **Application-Layer 프로그램**으로, Network Layer의 TCP/IP를 도와줌
+
+#### Plug and Play Control
+
+- 네트워크 관리자가 DHCP를 Configure해 **영구적**으로 호스트/라우터에게 IP주소를 할당 해줌
+- 임시적 / 수요에 따라 호스트에게 IP주소를 제공하는것도 가능
+
+#### Message Format
+
+- DHCP는 클라이언트가 request를 하고, 서버가 이에 response message를 보내는 클라이언트-서버 프로토콜이다
+
+![1556602901823](../../typora_images/1556602901823.png)
+
+- 64바이트 옵션 필드
+
+  - 추가적인 정보를 포함하거나, 특정 Vendor 정보를 포함
+  - 3개의 필드로 구성 : Tag(1 byte), Length (1 byte), Value(variable)
+    - 태그가 53이면, 8개 중 하나의 메세지 타입을 뜻함
+
+  ![1556603039549](../../typora_images/1556603039549.png)
+
+##### Operation
+
+1. Joining Host에서 **DHCP**DISCOVER 메시지를 만듬
+
+   - Application : transaction ID가 랜덤숫자로 지정됨, 다른 필드는 안건드림
+   - UDP : source port  = 68, dest port = 67
+   - IP : Source address = 0.0.0.0 (This Host), Dest address = 255.255.255.255(Broadcast)
+     - 자신의 주소 / 목표 주소가 어딘지 모르기 때문
+
+   ![1556603400267](../../typora_images/1556603400267.png)
+
+2. DHCP 서버(들)이 **DHCP**OFFER 메시지로 응답
+
+   - Application : Lease time = 3600, Your address = 181.14.16.182, Server Address = 181.14.16.170
+   - UDP : source port = 67, dest port = 68
+   - IP : Source address = 181.14.16.170(서버), Dest Address = 255.255.255.255(**Broadcast**)
+     - 다른 DHCP 서버들도 이 메시지를 받고, 더 좋은 오퍼를 보낼 수 있는지 확인 위함
+
+   ![1556603727128](../../typora_images/1556603727128.png)
+
+3. Joining Host가 1개 또는 여러개의 Offer를 받아 그중 하나를 선택하고 **DHCP**REQUEST를 해당 서버에 보냄
+
+   - Application : Lease time = 3600, Client Address = 181.14.16.182, Server Address = 181.14.16.170
+   - UDP : source port = 68, dest port = 67
+   - IP : Source address = 181.14.16.182, Dest address = 255.255.255.255(**Broadcast**)
+     - 다른 DHCP 서버들이 이 메세지를 받고 자신들의 Offer가 거절된 것을 알리기 위함
+
+   ![1556603741213](../../typora_images/1556603741213.png)
+
+4. 선택된 DHCP 서버가 **DHCP**ACK/**DHCP**NACK로 응답
+
+   - Application : Lease time = 3600, Your Address = 181.14.16.182, Server Address = 181.14.16.170
+
+   - UDP : source port = 67, dest port = 68
+
+   - IP : Source address = 181.14.16.170, Dest Address = 255.255.255.255(**Broadcast**)
+
+     - 다른 DHCP 서버들에게 요청이 허용되었는지/아닌지 알리기 위함
+
+     ![1556608983053](../../typora_images/1556608983053.png)
+
+   ![1556608951652](../../typora_images/1556608951652.png)
+
+   

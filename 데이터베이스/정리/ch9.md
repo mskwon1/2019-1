@@ -157,6 +157,8 @@
 
   - 특징
 
+    - 사용자가 쓸일은 없음
+
     ![1555600123027](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1555600123027.png)
 
   - 분산환경(R = 서울, S = 부산)
@@ -172,6 +174,10 @@
 - OUTER-UNION(∪+)
 
   - 정의 : 합병가능하지 않은(부분적으로만 가능한) 두 릴레이션을 차수를 확장시켜 합집합으로 만듬
+
+**<u>~중간범위</u>**
+
+------
 
 - 집단연산
   - 수학적 집단 연산 : SUM, AVG, MAX, MIN, COUNT
@@ -189,4 +195,59 @@
 
   ![1555600651763](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1555600651763.png)
 
+  - 각각의 그룹에 대해서 관계 대수식 수행
+
+### 관계대수의 질의문 표현
+
+1. 관련된 테이블과 속성을 파악
+2. SELECT 연산을 적용
+   - 조인 연산에 사용될 피연산자의 **크기를 최대한 줄임**
+3. JOIN 연산을 적용
+   - DIVIDE 연산은 실제로 사용 X
+4. PROJECT 연산을 적용
+
+![1556583768182](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556583768182.png)
+
+- 삽입
+  - 학번이 600, 이름이 김명호, 학년이 4, 학과가 컴퓨터인 학생을 학생 테이블에 삽입하라
+    - 합집합 이용 **<> 표시** 해주는거 잊지말기
+    - 학생 ∪ {<600, '김 명호', 4, ‘컴퓨터’>}
+
+- 삭제
+
+  - 과목 테이블에서 Database 과목을 삭제하라
+
+    - 차집합 이용
+
+    - – 과목 - ( σ과목명=‘Database' (과목) )
+
+- 검색
+
+  - 학과가 컴퓨터이고 학년이 3학년인 학생의 학번과 이름을 검색
+    - ![1556583981090](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556583981090.png)
+  - 학수 번호가 100인 과목을 등록하여 성적A를 받은 학생의 이름을 검색
+    - ![1556584135276](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556584135276.png)
+    - JOIN 하기전 **SELECT**를 하고 JOIN하는 것이 좋다
+    - Query Optimization : DBMS가 알아서 내부적으로 질의문을 최적화 함
+  - Database 과목을 등록한 학생의 이름을 검색
+    - ![1556584665139](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556584665139.png)
+
   
+  - Database 과목을 등록하여 성적 A를 받은 학생의 이름을 검색
+    - ![1556584839817](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556584839817.png)
+
+  - Database와 화일처리 과목을 같이 수강한 학생의 학번을 검색
+    - ![1556584949813](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556584949813.png)
+
+  - 컴퓨터 학과의 3학년 학생들 중 Database와 화일처리를 같이 수강한 학생의 학번을 검색
+    - ![1556585479180](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556585479180.png)
+  - 학수번호가 100인 과목을 등록하지 않은 학생의 이름은?
+    - ![1556585609371](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556585609371.png)
+  - Database 과목의 기말시험 평균은?
+    - ![1556585705743](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556585705743.png)
+    - 키가 있어야 중복이 제거됨
+  - Kim 교수가 가르치는 각 과목의 기말시험 평균은?
+    - ![1556585812859](C:\Users\user\AppData\Roaming\Typora\typora-user-images\1556585812859.png)
+
+## 관계 해석
+
