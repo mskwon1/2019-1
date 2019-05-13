@@ -95,3 +95,48 @@
 
 - 컨셉을 Attribute로 정의해버리는 경우
 - If we do **not** think of some conceptual class **X as a number or text** in the real world, X is probably a **conceptual class**, not an attribute
+
+![1556777867935](../../typora_images/1556777867935.png)
+
+### Refine Glossary
+
+- 사용되는 Term들을 List 하고 Refine한다
+  - Risk를 낮추고, Communication시의 Misunderstanding 방지
+  - Input : Term Dictionary, Essential Use Case Descriptions, Conceptual Class Diagram
+  - Output : Refined **Term Dictionary**
+
+### Define System Interaction Diagrams
+
+- Actor -> System으로 가는 이벤트 상황을 보여주는 다이어그램
+- System Behaviour : 시스템이 뭘하는지 설명하는 것 (How가 아님)
+- System Interaction Diagram 
+  - 유즈 케이스 시나리오 반영
+  - 액터가 만들어내는 시스템의 동작
+
+#### System Sequence Diagram(SSD)
+
+- Input : Essential Use Case Descriptions, Use Case Diagram
+
+- Output : Sequence Diagram
+
+- 시스템과 액터 사이의 상호작용을 그림
+
+  - 시스템을 뜻하는 Black Box 하나, 액터 하나별로 라인 하나 그림
+  - 시스템 바운더리 설정 
+
+  ![1556778498892](../../typora_images/1556778498892.png)
+
+- Main Success Scenarios, Frequent/Complex/Alternative Scenarios에 대해 작성
+
+### Define Operation Contracts
+
+- System Operation에 관한 Contract 정의
+  - Contract : Operation이 목표달성을 위해 뭘하는지
+  - System Operation 각각 하나씩 작성
+  - System Opeation이 호출됐을 때 전체 시스템의 상태 변화를 정의
+- Input : System Sequence Diagram, Conceptual Class Diagram
+- Output : Operation Contracts
+- 어떻게 보다 **무엇**을
+
+![1556779376119](../../typora_images/1556779376119.png)
+

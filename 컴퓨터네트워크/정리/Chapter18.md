@@ -525,4 +525,135 @@
 
    ![1556608951652](../../typora_images/1556608951652.png)
 
-   
+### NAT
+
+- NAT이 필요한 이유 
+  - ISP가 사용자에게 큰 범위의 주소를 할당해야 할 때, 그만큼 연속적인 주소공간이 없을 수 있음
+  - 할당된 주소의 수가 네트워크 안의 컴퓨터의 수와 일치해야 하는건 아님
+  - 대부분의 상황에서 몇몇 컴퓨터만 동시에 인터넷에 접근을 필요로 함
+  - private <-> universal address 사이의 매핑 + **Virtual Private Network** 지원을 하는 기술 = NAT
+    - 내부적 소통을 위해서는 private 인터넷 주소를 사용
+    - 세상과의 소통을 위해서는 global 인터넷 주소를 사용
+
+#### Address Translation
+
+- 밖으로 가는 패킷들은 NAT 라우터를 통해서 감
+  - NAT 라우터가 src 주소를 global NAT 주소로 바꿈
+- 밖에서 오는 패킷들도 NAT 라우터를 통해서 옴
+  - NAT 라우터가 dest 주소를 private 주소로 바꿈
+
+![1556766718039](../../typora_images/1556766718039.png)
+
+#### Translation Table
+
+- NAT 라우터가 인터넷으로부터 오는 패킷의 dest 주소를 아는법은?
+- NAT 라우터에 Translation Table이 필요함
+
+##### Using one IP Address
+
+- 2개의 열만 존재 : Private, Universal
+- 단 하나의 global address
+- 라우터가 밖으로 가는 패킷을 translate 할 때, dest address를 기록해놓음
+  - 해당 dest address에서 응답이 올 때, 패킷의 src address를 확인해서 패킷이 가야할 private address를 알아냄
+- 하나의 바깥 Host와 통신하는 Host가 하나밖에 안됨
+
+##### Using a pool of IP Addresses
+
+- global 주소를 여러개 씀
+  - 호스트 별로 하나씩
+- 단점
+  - Destination 하나에 한번에 4개의 연결만 가능
+  - Host하나가 한번에 2개의 외부 서버 프로그램에 접근할 수 없음
+  - 두개 이상의 Host가 같은 외부서버 프로그램에 동시에 접근할 수 없음
+
+##### Using both IP Addresses and Port Address
+
+- Translation Table에 더 많은 정보가 필요함
+  - 5개의 열 사용
+    - source port 주소(내부), dest port 주소(외부), transport layer protocol
+  - source address + dest port address가 짝을 이뤄 어디 호스트로 가야하는지 알려줌
+
+## Forwarding of IP Packets
+
+- Fowarding에서의 IP주소의 역할 추가
+  - Forwarding = 패킷을 destination까지의 route에 놓는것, 다음홉으로 패킷을 옮기는것
+
+### Forwarding Based on Destination Address
+
+- 전통적이고 일반적인 접근법
+- Host / Router가 Forwarding Table을 가지고 있어야 함
+- Host / Router가 forward 해야 할 패킷이 있을 때, 이 테이블을 참고해 다음 홉으로 보냄
+
+![1556769778121](../../typora_images/1556769778121.png)
+
+- 테이블 네트워크 주소의 마스크를 사용해 체크하고자 하는 주소를 바꿔서 주소가 범위에 맞는지 비교
+
+#### Address Aggregation
+
+- 여러개의 주소집합이 하나의 큰범위로 forwarding table에 들어가는것
+  - Router -> Router
+
+- Classless Addressing에서 라우터는 **Longest Mask Matching**  활용
+  - 마스크의 길이가 긴 친구부터 비교를 진행함(범위가 좁은 네트워크 주소부터 검사한다는 뜻)
+
+![1556776431402](../../typora_images/1556776431402.png)
+
+- Hierarchy Routing
+  - 인터넷의 Hierarchy : backbone / national / regional / local ISPs
+- Geographical Routing
+  - Forwarding Table의 크기를 줄이기 위해서는 Geographical Routing을 포함하도록 해야 함
+  - 전체 Address Space를 몇개의 큰 블록으로 쪼갬
+    - ex) America / Europe / Asia / Africa
+    - **유럽 밖**에 있는 라우터들은 Europe으로 가는 entry **하나**만 있으면 됨
+
+#### Forwarding Table Search Algorithms
+
+- Classless Addressing에서의 Destination Address는 Network 정보를 포함하고 있지 않음
+
+  -  Search Method : **Longest Prefix(Mask) Match**
+
+    - Linear Search 방식
+
+    1. Fowarding Table이 여러개의 Bucket들로 나눠짐(One prefix : One bucket)
+
+    2. 라우터가 가장 긴 prefix를 try, 해당 bucket에서 dest  주소를 찾으면 종료
+    3. 못찾으면 다음 longest prefix로 이동하는 것을 반복
+
+    - 시간이 오래 걸리는 방식
+
+  - 리스트 대신 **Tree** / **Binary Tree** 방식 사용 가능
+
+    - **Trie** 방식이 후보가 될 수 있음(Tree의 한 종류)
+
+### Forwarding Based on Label
+
+- IP를 Connection-Oriented 프로토콜로 바꾸려는 노력(Routing을 **Switch**로 대체)
+- Switch가 패킷에 달려있는 Label을 바탕으로 Forward
+- Routing은 테이블에서 **찾는** 방식, Switch는 **인덱스**를 이용해 테이블에 **접근**
+  - 즉,  한번의 접근으로 바로 찾음 
+
+![1556780306929](../../typora_images/1556780306929.png)
+
+#### Multi-Protocol Label Switching(MPLS)
+
+- 기존의 라우터들이 MPLS방식(라우터 + 스위치)로 대체 가능
+  - Router의 역할을 할 때 : Dest 주소를 바탕으로 패킷 forward
+  - Switch의 역할을 할 때 : Label을 바탕으로 패킷 forward
+- 기존의 패킷에 새로운 헤더를 추가(MPLS 헤더) 
+  - IPv4에서는 지원하지 않음
+  - IPv6에서는 지원
+    - IPv4를 MPLS 패킷으로 Encapsulate함(MPLS 헤더를 포함하는 형태)
+  - MPLS 헤더는 여러개의 Subheader로 구성(32 비트)
+    - Label : 20비트(테이블 인덱싱을 위함)
+    - Exp : 3비트(실험적 목적으로 예약됨)
+    - S : 1비트(1이면 헤더가 스택에서 마지막이라는 뜻)
+    - TTL : 8비트(방문한 라우터가 이 필드를 1씩 까내림 -> 0 되면 버림 : 루프 방지)
+- Hierarchical Switching
+  - MPLS 내부의 Label들로 hierarchical switching이 가능함
+  - Top Label을 이용해 **organization 밖**의 switch로 forward
+  - Bottom Label을 이용해 **organization 안**으로 route
+
+### Routers as Packet Switches
+
+- 네트워크 레이어에서 사용하는 패킷 스위치 = **라우터**
+- 라우터는 Datagram Switch / Virtual-Circuit Switch로 작동하도록 configure 가능
