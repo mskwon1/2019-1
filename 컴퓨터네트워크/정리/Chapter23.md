@@ -288,7 +288,7 @@
 
 ###  Selective-Repeat Protocol
 
-- GBN은 Receiver입장에서의 받는 과정을 간소화시켜줌
+- GBN바은 Receiver입장에서의 받는 과정을 간소화시켜줌
   - 하나의 패킷만 지정해서 받을 수 있고, 나머지는 받으면 버림
   - 많은 패킷이 lost될 경우 매우 비효율적, time out 발생시 모든 Outstanding Packet 을 다시 보내기 때문
   - Congestion 발생으로 인해 패킷이 lost된 경우 Outstanding Packet 전체 재송신으로 인해 Congestion이 더욱 심각해짐, 더 많은 패킷이 lost됨

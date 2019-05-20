@@ -225,3 +225,112 @@
 - file.create() 함수 : 파일 생성
 - file.remove() 함수 : 파일 제거
 - file.exists() 함수 : 특정 파일이 존재하는지 확인
+
+## 데이터베이스
+
+- 데이터베이스의 데이터를 텍스트 형식의 파일로 저장한 후 해당 텍스트 파일 읽어오기
+  - 대용량일경우 DB와의 직접연결보다 속도가 빠름
+  - 일회성 작업일 경우 최적의 방법
+  - 수시로 보고서 작성 / 반복작업이 필요한 경우 매번 텍스트로 변환해야하기때문에 비효율적
+- RODBC : ODBC를 이용하여 DB에 연결, 표준 인터페이스제공, RODBC 패키지 이용
+- DBI : DB에서 제공하는 고유의 DB 드라이버를 이요하여 DB에 연결, DBI(DB Interface) 패키지 제공
+
+### RODBC
+
+- 연결할 데이터베이스에 대한 ODBC 드라이버를 설치한 후 ODBC 연결환경을 설정
+- install.packages() 함수로 RODBC 패키지 설치
+
+- ODBC 드라이버를 설치하고, ODBC 관리자를 열어 데이터베이스를 등록
+
+- 사용자 DSN에서 새 데이터 원본을 만들고, 이름 / DB 선택등의 과정을 끝낸 뒤 odbcConnect() 함수로 연결
+
+  - dsn 인수 : DSN 이름 지정
+  - uid / pwd 인수 : 사용자명 / 패스워드가 설정되어있는경우 지정
+  - 이 객체는 보통 채널이라고 불림
+
+- 연결된 데이터베이스에 대한 정보를 보려면 odbcGetInfo() 함수 이용
+
+  - channel 인수 : 정보를 볼 채널 객체
+
+- sqlTables() 함수 : DB내에 어떤 테이블들이 포함되어 있는지 보기
+
+  - channel 인수 : 채널 지정
+  - 테이블 정보를 데이터 프레임 형식으로 반환
+
+- sqlColumns() 함수 : 테이블 내의 열에 대한 정보 제공
+
+  - channel 인수 : 채널 지정
+  - sqtable 인수 : 테이블 이름 지정
+
+- sqlFetch() 함수 : DB 내의 특정 테이블 가져오기
+
+  - channel 인수 : 채널 지정
+  - sqtable 인수 : 테이블 이름 지정
+  - 지정된 테이블의 내용을 데이터프레임 형식으로 반환
+  - 이후 subset() 등의 함수를 이용해 간단하게 데이터를 다룰 수 있음
+
+- sqlQuery() 함수 : 데이터 처리시 SQL 쿼리를 사용
+
+  - channel 인수 : 채널 지정
+  - query 인수 : SQL문 지정
+  - 결과를 데이터프레임 형식으로 반환
+
+  - 어떠한 SQL 문장도 실행 가능
+  - 테이블이 매우 크거나 쿼리가 복잡한 경우 실행시간이 다소 오래 걸림, 일부를 먼저 확인한 후 나중에 나머지 결과를 보는것이 때때로 유용
+    - max 인수 : 한번에 가져올 행의 개수를 지정
+
+- sqlGetResults() 함수 : sql연산결과 중 나머지 결과를 가져옴
+
+- odbcClose() 함수 : 데이터베이스와의 연결통로 닫기
+
+  - channel 인수 : 채널 지정
+
+  - odbcCloseAll() 함수 : 연결된 모든 채널 동시 종료
+
+- sqlSave() : 데이터프레임의 데이터를 데이터베이스에 저장
+
+  - sqlUpdate() : 테이블을 업데이트할때
+  - channel 인수 : 채널 지정
+  - dat 인수 : 데이터프레임 이름
+  - tablename 인수 : 생성할 테이블 이름
+  - rownames 인수 : 데이터프레임의 행 이름이 저장될 테이블의 열 이름 지정
+  - addPK = TRUE : 행 이름에 대응되는 열이 기본키로 사용
+
+### DBI
+
+- 하나의 특정 패키지가 아니며, DB 접근을 위한 프레임워크이면서 패키지 집합을 의미
+- 데이터베이스별로 제공, MySQL -> RMySQL, SQLite -> RSQLite, Oracle -> ROracle, PostgreSQL -> RPostgreSQL
+- install.packages("RSQLite")로 설치
+
+- dbConnect() 함수 : 데이터베이스 연결
+  - drv 인수 : 드라이버 객체가 필요 -> dbDriver("SQLite")로 생성, 바로 연결객체를 생성해도 됨(SQLite())
+  - dbname 인수 : 데이터베이스 파일 지정
+
+- dbListTables() 함수 : 데이터베이스 내의 테이블 확인
+  - conn 인수 : 연결 객체 지정
+  - 테이블 이름을 **문자 벡터**로 반환
+- dbListFields() 함수 : 테이블 내의 열 이름 확인
+  - conn 인수 : 연결 객체 지정
+  - name : 테이블 이름
+  - 열 이름의 벡터 반환
+- dbGetQuery() 함수 : SQL 쿼리 결과를 데이터프레임 형식으로 반환
+  - conn 인수 : 연결 객체 지정
+  - statement 인수 : SQL문 
+  - 테이블이 크거나 쿼리가 복잡한 경우 쿼리를 수행하는 작업 / 결과를 가져오는 작업의 분리가 필요
+    - dbSendQuery() 함수 : SQL 쿼리를 보냄
+      - conn 인수 : 연결 객체 지정
+      - statement 인수 : SQL문
+    - fetch() 함수 : 결과를 가져옴
+      - n 인수 : 출력할 최대 행의 개수 지정, 지정하지 않을시 전체 결과 출력
+    - dbClearResult() 함수 : 쿼리 결과 지우기
+
+- dbReadTable() 함수 : SQL문장과 함께 테이블 전체 읽어오기, 좀 더 간단하게
+  - conn 인수 : 연결 객체 지정
+  - name : 테이블 이름 지정
+- dbDisconnect() 함수 : 데이터베이스 연결 종료
+  - conn 인수 : 연결 객체 지정
+- dbUnloadDriver() 함수 : 데이터베이스 드라이버 객체 메모리에서 제거
+  - 드라이버 객체 지정
+- dbWriteTable() 함수 : 데이터프레임을 DBI를 이용하여 데이터베이스의 테이블로 만들기
+- dbExistTable() 함수 : 테이블이 존재하는지 확인
+- dbRemoveTable() 함수 : 테이블을 삭제
