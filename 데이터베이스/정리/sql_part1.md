@@ -174,7 +174,7 @@
 
   ![1556758885325](../../typora_images/1556758885325.png)
 
-#### 기본키 제약조건
+##### 기본키 제약조건
 
 - 데이터베이스의 **개체 무결성**을 유지하는 장치
   - UNIQUE + NOT NULL
@@ -183,11 +183,12 @@
   - Insert / Update 문에서 이 조건에 위반되는 PK값이 시도되면 DBMS가 이를 거부
 - 따로 선언되지 않으면, 애트리뷰트 중 UNIQUE + NOT NULL인 첫번째 애트리뷰트가 PK로 선언됨
 
-#### 외래키 제약조건
+##### 외래키 제약조건
 
 - 데이터베이스의 **참조 무결성**을 유지하는 장치
-  - 자식 테이블의 FK값은 부모 테이블의 PK값 중 하나이거나 NULL
-
+  
+- 자식 테이블의 FK값은 부모 테이블의 PK값 중 하나이거나 NULL
+  
 - 테이블은 여러개의 FK를 가질 수 있음(한개 이상의 애트리뷰트로 구성)
 
 - 기본 동작
@@ -227,3 +228,123 @@
 
     - FK 제약조건의 체크 기능을 중지 할 수 있음(0일때 중지, 1일때 실행)
     - 외부데이터를 import할 때 유용
+
+##### Check 제약조건
+
+- 테이블은 여러개의 Check 제약조건을 가질 수 있음
+- 종류
+  - Column Constraint : 하나의 애트리뷰트에만 적용되는 조건
+  - Table Constraint : 여러 애트리뷰트에 적용되는 조건
+    ![1557794106120](../../typora_images/1557794106120.png)
+
+##### SELECT문을 이용한 테이블 생성
+
+- Oracle / MySQL
+  - CTAS : CREATE TABLE 테이블명 AS SELECT 문
+  - 기존 제약조건 중 NOT NULL만 새로운 복제 테이블에 적용, 기본키/고유키/외래키/CHECK의 제약조건은 없어짐
+    ![1557794221260](../../typora_images/1557794221260.png)
+- SQL Server
+  ![1557794254959](../../typora_images/1557794254959.png)
+
+#### DROP TABLE
+
+- 테이블 정의와 테이블 데이터를 모두 삭제
+- Syntax : DROP TABLE 테이블명 [RESTRICT | CASCADE]
+  - RESTRICT : FK를 통해, 해당 테이블의 튜플을 참조하는 자식 테이블의 튜플이 하나라도 존재하면 DBMS가 명령 **실행 거부**(기본값)
+  - CASCADE : FK를 통해, 해당 테이블의 튜플을 잠조하는 자식 테이블의 튜플이 하나라도 존재하면 DBMS가자식 테이블에서 **해당 튜플들도 제거**
+- MySQL에서는 아무 역할 안함(다른 DBMS에서의 포팅을 위해서만 사용)
+
+#### ALTER TABLE
+
+- 컬럼의 추가 / 삭제 / 수정
+- 제약조건의 추가 / 삭제
+- Syntax
+  ![1557795017869](../../typora_images/1557795017869.png)
+
+##### ADD
+
+- Syntax
+  - ALTER TABLE 테이블명
+    ADD 컬럼명 Datatype
+- Oracle 
+  ![1557795111709](../../typora_images/1557795111709.png)
+- SQL Server
+  ![1557795131107](../../typora_images/1557795131107.png)
+
+##### DROP COLUMN
+
+- Syntax
+  - ALTER TABLE 테이블명
+    DROP COLUMN 컬렴명 [RESTRICT | CASCADE]
+- Oracle / SQL Server
+  ![1557795183505](../../typora_images/1557795183505.png)
+- MySQL : RESTRICT | CASCADE 사용 X
+
+##### MODIFY
+
+- 주의사항
+  - 해당 컬럼의 크기를 늘릴 수는 있지만, 줄이지는 못함(기존의 데이터 훼손 방지)
+  - 해당 컬럼이 NULL 값만 가지고 있거나 테이블에 아무 행도 없으면 **컬럼의 폭을 줄일 수 있음**
+  - 해당 컬럼이 NULL 값만 가지고 있으면 **데이터 유형을 변경**할 수 있음
+  - 해당 컬럼의 DEFAULT 값을 바꾸면 **변경 작업 이후** 발생하는 행 삽입에만 영향
+  - 해당 컬럼에 NULL 값이 없을 경우에만 NOT NULL 제약조건 추가 가능
+
+- Oracle
+  ![1557795437924](../../typora_images/1557795437924.png)
+- SQL Server
+  ![1557795453116](../../typora_images/1557795453116.png)
+
+##### RENAME COLUMN
+
+- Oracle 등 일부 DBMS에서만 제공(컬럼의 이름을 바꾸면 **프로그램에도 영향**)
+  ![1557795511108](../../typora_images/1557795511108.png)
+- SQL Server : 저장 프로시져 sp_rename 제공
+  ![1557795537422](../../typora_images/1557795537422.png)
+
+##### ADD CONSTRAINT
+
+- Syntax
+  ![1557795567449](../../typora_images/1557795567449.png)
+
+##### DROP CONSTRAINT
+
+- Syntax
+  ![1557795596494](../../typora_images/1557795596494.png)
+
+##### RENAME TABLE
+
+- Oracle, MySQL 등 일부 DBMS에서만 제공
+  ![1557795627313](../../typora_images/1557795627313.png)
+- SQL Server : 저장 프로시져 sp_rename 제공
+  ![1557795649650](../../typora_images/1557795649650.png)
+
+##### TRUNCATE TABLE
+
+- **테이블 관련 삭제 연산**
+  - DROP TABLE 테이블명(DDL)
+    - 테이블 정의 + 데이터 모두 삭제
+    - 로그를 남기지 않음(시스템에 부하가 적음)
+    - 복구 불가
+  - TRUNCATE TABLE 테이블명(DDL)
+    - 테이블 구조는 유지, 데이터만 삭제
+    - 로그를 남기지 않음(시스템에 부하가 적음)
+    - 복구 불가
+  - DELETE FROM 테이블명(DML)
+    - 테이블 구조는 유지, 데이터만 삭제
+    - 로그를 남김(시스템에 부하)
+    - **Rollback을 통한 복구 가능**
+
+- DROP TABLE, TRUNCATE TABLE은 데이터를 메모리에 로딩하지 않고 하드디스크에서 그대로 실행
+  - 로그가 남지 않아 복구가 불가능함
+
+#### 테이블의 정의 확인
+
+- DESCRIBE 테이블명
+- SHOW CREATE TABLE 테이블명
+- SHOW INDEX FROM 테이블명
+
+#### INFORMATION_SCHEMA
+
+- MySQL내의 모든 스키마의 내용을 정리한 스키마
+  - SCHEMATA, TABLES, COLUMNS, KEY_COLUM_USAGE, REFERENCE_CONSTRAINTS등 41개 테이블
+- DML의 query문으로 내용 검색 가능

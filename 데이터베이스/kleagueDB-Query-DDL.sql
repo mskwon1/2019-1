@@ -8,14 +8,15 @@ DESCRIBE TEAM;
 DESCRIBE STADIUM;
 DESCRIBE SCHEDULE;
 
-SELECT SQL_MODE
-FROM INFORMATION_SCHEMA.ROUTINEs;
+SELECT 	SQL_MODE
+FROM 	INFORMATION_SCHEMA.ROUTINEs;
 
 -------------------------------------------
 -- 1. CREATE TABLE - PK Constraint
 -------------------------------------------
 
 -- Q1: 키 값의 수정
+
 SELECT 	* FROM TEAM;
 
 UPDATE 	TEAM
@@ -26,11 +27,11 @@ SELECT 	* FROM TEAM;
 
 -- Q2: PK constraint (Entity integrity constraint)
 
--- PK 제약조건 위반으로 실행이 거부됨 
+/* PK 제약조건 위반으로 실행이 거부됨 */
 INSERT 	INTO TEAM (TEAM_ID, REGION_NAME, TEAM_NAME, STADIUM_ID) 
 VALUES 	(NULL,'서울','국민대학교','KMU');
 
--- PK 제약조건 위반으로 실행이 거부됨 
+/* PK 제약조건 위반으로 실행이 거부됨 */
 INSERT 	INTO TEAM (TEAM_ID, REGION_NAME, TEAM_NAME, STADIUM_ID) 
 VALUES 	('K01','서울','국민대학교','KMU');
 
@@ -41,51 +42,54 @@ VALUES 	('K01','서울','국민대학교','KMU');
 
 -- Q3: 존재하지 않는 FK 값 'KMU'을 자식 테이블에 insert/update할 때
 
--- FK 제약조건 위반으로 실행이 거부됨 
+/* FK 제약조건 위반으로 실행이 거부됨 */
 INSERT 	INTO TEAM (TEAM_ID, REGION_NAME, TEAM_NAME, STADIUM_ID) 
 VALUES 	('K20','서울','국민대학교','KMU');
 
--- FK 제약조건 위반으로 실행이 거부됨
+/* FK 제약조건 위반으로 실행이 거부됨 */
 UPDATE 	TEAM
 SET		STADIUM_ID = 'KMU'
 WHERE	TEAM_ID = 'K03';
 
 
 -------------------------------------------
--- 2.2 CREATE TABLE - FK Constraint - 부모 테이블에서 FK 삭제/수정 (RESTRICT)
+-- 2.2 CREATE TABLE - FK Constraint - 부모 테이블에서 FK 삭제/수정 (RESTRICT인 경우)
 -------------------------------------------
 
-SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, 
+		REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
 FROM 	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE	CONSTRAINT_SCHEMA = 'kleague'
 ORDER   BY CONSTRAINT_NAME DESC;
 
 -- 현재의 Referential option의 조합을 확인
 
-SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, TABLE_NAME, REFERENCED_TABLE_NAME
+SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, 
+		TABLE_NAME, REFERENCED_TABLE_NAME
 FROM 	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
 WHERE	CONSTRAINT_SCHEMA = 'kleague';
 
 -- Q4: 부모 테이블에서 PK 값을 delete할 때, RESTRICT 옵션에서는 부모 테이블에서 delete가 거부됨.
 
--- 부모 테이블 확인
+/* 부모 테이블 확인 */
 SELECT 	* FROM STADIUM;
 
--- FK 제약조건 위반으로 실행이 거부됨
+/* FK 제약조건 위반으로 실행이 거부됨 */
 DELETE 	FROM STADIUM
 WHERE 	STADIUM_ID = 'B05';
 
--- 자식 테이블인 TEAM에서 K01 팀의 전용구장이 C04임
+/* 자식 테이블인 TEAM에서 K09 팀의 전용구장이 B05임 */
 SELECT 	* FROM TEAM;
 
 
 -------------------------------------------
--- 2.3 CREATE TABLE - FK Constraint - 부모 테이블에서 FK 삭제/수정 (CASCADE)
+-- 2.3 CREATE TABLE - FK Constraint - 부모 테이블에서 FK 삭제/수정 (CASCADE인 경우)
 -------------------------------------------
 
--- 아래 ALTER TABLE 할 때마나, 현재의 Referential option의 조합을 확인
+-- 아래 ALTER TABLE 할 때마다, 현재의 Referential option의 조합을 확인
 
-SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, TABLE_NAME, REFERENCED_TABLE_NAME
+SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, 
+		TABLE_NAME, REFERENCED_TABLE_NAME
 FROM 	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
 WHERE	CONSTRAINT_SCHEMA = 'kleague';
 
@@ -99,7 +103,7 @@ ADD     CONSTRAINT 	FK_STADIUM_TEAM_NEW	FOREIGN KEY (STADIUM_ID) REFERENCES STAD
 											ON DELETE CASCADE
 											ON UPDATE CASCADE;
 
--- FK 제약조건에 따라, TEAM에서도 연속적으로 삭제가 실행되어야 하나, 실행이 거부됨.
+-- FK 제약조건에 따라, TEAM에서도 연속적으로 삭제가 실행되어야 하나, 실행이 거부됨. (Why ?)
 DELETE	FROM STADIUM
 WHERE 	STADIUM_ID = 'B05';
 
@@ -150,10 +154,10 @@ SELECT	COUNT(*) FROM PLAYER WHERE TEAM_ID = 'K09';		/* 서울 FC, 49 */
 DELETE	FROM STADIUM
 WHERE 	STADIUM_ID = 'B05';
 
-SELECT 	COUNT(*) FROM STADIUM;		/* 19개 */
-SELECT 	COUNT(*) FROM TEAM;			/* 14개 */
-SELECT 	COUNT(*) FROM SCHEDULE;		/* 143개 (179 - 36) */
-SELECT 	COUNT(*) FROM PLAYER;		/* 431명 (480 - 49) */
+SELECT 	COUNT(*) FROM STADIUM;		/* 19개 (1개 삭제됨)*/
+SELECT 	COUNT(*) FROM TEAM;			/* 14개 (1개 삭제됨) */
+SELECT 	COUNT(*) FROM SCHEDULE;		/* 143개 (179-36개 삭제됨) */
+SELECT 	COUNT(*) FROM PLAYER;		/* 431명 (480-49개 삭제됨) */
 
 ------------------------------
 
@@ -188,9 +192,10 @@ DROP	TABLE TEMP;
 -- 3. DROP TABLE
 -------------------------------------------
 
--- MySQL에서 DROP TABLE의 RESTRICT|CASCADE는 아무 역할을 안함. 다른 DBMS에서의 포팅을 위해서만 사용됨.
+-- MySQL에서 DROP TABLE의 RESTRICT|CASCADE는 아무 역할을 안함. 
+-- 다른 DBMS에서의 포팅을 위해서만 사용됨.
 
-DROP	TABLE STADIUM;
+DROP	TABLE STADIUM;		/* 디폴트는 RESTRICT임 */
 
 DROP	TABLE STADIUM RESTRICT;
 
@@ -272,14 +277,13 @@ WHERE	TABLE_SCHEMA = 'kleague' AND TABLE_NAME = 'schedule';
 
 ------------------------------
 
-SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, 
+		REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
 FROM 	INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE	CONSTRAINT_SCHEMA = 'kleague' AND TABLE_NAME = 'schedule'
 ORDER   BY CONSTRAINT_NAME DESC;
 
-SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, TABLE_NAME, REFERENCED_TABLE_NAME
+SELECT 	CONSTRAINT_SCHEMA, CONSTRAINT_NAME, DELETE_RULE, UPDATE_RULE, 
+		TABLE_NAME, REFERENCED_TABLE_NAME
 FROM 	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
 WHERE	CONSTRAINT_SCHEMA = 'kleague' AND TABLE_NAME = 'schedule';
-
-
-
