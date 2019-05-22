@@ -194,3 +194,166 @@
 
 ![1558342167166](../../typora_images/1558342167166.png)
 
+- Fairness 문제 존재
+  - reader가 writer를 starve시킬 가능성이 높음
+  - writer가 대기중일때 다른 새로운 reader들이 못들어오게 해야함
+
+### The Dining Philosophers
+
+- 5명의 철학자가 테이블을 둘러싸고 있다고 가정
+
+  - 2명의 철학자 사이에는 하나의 포크가 존재(총 5개)
+  - 각 철학자는 생각할때(포크 필요없음), 먹을때(포크 2개 필요)가 있음
+  - 이 포크를 위한 투쟁
+
+- Key Challenge
+
+  - Deadlock은 없어야 함
+
+  - 어떤 철학자도 Starve하는 일은 없어야 함
+
+  - Concurrency가 높다
+    ![1558511454035](../../typora_images/1558511454035.png)
+
+    - 왼쪽의 포크를 요청할 때 left, 오른쪽은 right 호출
+
+    ![1558511532037](../../typora_images/1558511532037.png)
+
+- 포크 하나별로 Semaphore 하나가 필요함
+
+  - 데드락 발생
+    - 모든 철학자가 자신 왼쪽의 포크를 집었을경우, 모두 영원히 데드락
+  - 포크를 얻는방법을 바꿔야 함
+    - 4번째 철학자는 포크를 얻는방법을 다르게 바꿈(오른쪽 먼저)
+    - 데드락 발생 가능성이 없어짐
+      ![1558511667593](../../typora_images/1558511667593.png)
+
+## How to Implement Semaphores
+
+- Zemaphore 라는걸 만듬
+  ![1558511754677](../../typora_images/1558511754677.png)![1558511777857](../../typora_images/1558511777857.png)
+
+- 값이 0보다 작아질 수 없음
+- 구현하기 쉽고, 현재의 리눅스 구현과 일치
+
+# Common Concurrency Problems
+
+- 실제 상황에서 발생하는 Concurrency Problem에 주목
+
+![1558511876564](../../typora_images/1558511876564.png)
+
+## Non-Deadlock Bugs
+
+- 대부분의 Concurrency Bug를 차지함
+
+### Atomicity Violation
+
+- 다양한 메모리 접근 요청으로부터 요구되는 Serializability가 위반됨![1558512007223](../../typora_images/1558512007223.png)
+- 두개의 스레드가 동시에 thd->proc_info에 접근
+- 해결법 : 해당 부분에 Lock을 더한다
+
+###  Order Violation
+
+- 메모리 접근의 순서가 요구한대로 안되고, 뒤바뀜
+
+![1558512222867](../../typora_images/1558512222867.png)
+
+- Thread2에서 실행되는 문장은 초기화 된 후 실행 돼야함
+- 해결법 : Condition Variable을 사용해서 Ordering을 강제함
+
+![1558512391876](../../typora_images/1558512391876.png)
+
+## Deadlock Bugs
+
+![1558512428666](../../typora_images/1558512428666.png)
+
+- 사이클의 존재
+  - Thread1이 L1을 가지고있고, Thread2는 L2를 가지고 있고, 서로 기다리는 상황
+- 발생하는 이유
+  - 큰 코드 베이스의 경우, Component들 사이에 복잡한 의존성이 존재
+  - Encapsulation의 특성 때문
+    - 모듈화를 위해 구체적인 구현을 숨기려함
+    - locking과는 잘 맞지 않음
+- 예시) 자바 벡터 클래스
+  ![1558512574269](../../typora_images/1558512574269.png)
+  - v1, v2를 위한 lock이 각각 필요함
+  - 다른 스레드가 v2.AddAll(v1)을 거의 동시에 실행하게 되면, Deadlock 발생
+- Deadlock의 발생조건
+  ![1558512673264](../../typora_images/1558512673264.png)
+  - 위 4가지 조건중 하나라도 만족이 안되면, 데드락은 발생할 수 없음
+
+### Circular Wait
+
+- Lock의 획득에 Total Ordering을 제공
+  - Global Locking Strategy에 조심스러운 디자인이 필요함
+- 예시
+  - 시스템에 락이 2개 (L1, L2) 있음
+  - L2를 얻기 전 항상 L1을 얻게 함으로써 데드락 예방 가능
+
+### Hold-and-Wait
+
+![1558513139068](../../typora_images/1558513139068.png)
+
+- 모든 락을 한번에 획득하게 함(Atomically)
+  - Lock을 획득할 때 스레드 스위치가 없게 해야 함
+- 문제점
+  - 어떤 락이 필요한지 확인하고, 미리 획득해놔야 함
+  - Concurrency 하락
+
+### No Preemption
+
+- 여러개의 Lock을 한번에 얻으려할때 문제점이 하나의 Lock을 기다릴 때 다른걸 들고있기 때문
+- trylock()
+  - deadlock-free, ordering-robust lock acqusition protocol을 만들기 위해 사용
+  - 가용하면 락을 가져옴
+  - 아니면 -1 리턴 (나중에 다시 해야함)
+
+![1558513294892](../../typora_images/1558513294892.png)
+
+- livelock
+  - 계속해서 특정 코드를 일정하게 시도하지만 성과가없는 경우(반복)
+  - 해결법 : loop back하기전에 랜덤시간 딜레이를 추가함
+
+### Mutual Exclusion
+
+- Wait-Free
+  - 강력한 하드웨어 명령을 사용
+  - 명백한 Locking이 필요없는 자료구조를 만듬
+    ![1558513436478](../../typora_images/1558513436478.png)
+- 특정값을 일정량만큼 Atomic하게 증가시키고 싶을 때
+  ![1558513517315](../../typora_images/1558513517315.png)
+  - 획득하는 Lock이 없고
+  - 데드락 가능성도 없음
+  - livelock은 발생가능
+- 더 복잡한 예시(리스트 삽입)
+  ![1558513561500](../../typora_images/1558513561500.png)
+  - 여러 스레드가 동시에 호출할 시, 경쟁 조건 발생
+  - 해결법
+    - Lock Acquire/Release로 감싸기![1558513608077](../../typora_images/1558513608077.png)
+    - Wait-Free 방법(Compare-and-Swap)
+      ![1558513671812](../../typora_images/1558513671812.png)
+
+### Deadlock Avoidance via Scheduling
+
+- Global Knowledge가 필요함
+
+  - 각 스레드가 실행될 때 필요로 할 lock들
+  - 스레드를 데드락 발생 가능성이 없는 순서로 실행시킴
+
+- 2개의 프로세서 / 4개의 스레드가 있다고 가정
+  ![1558513933553](../../typora_images/1558513933553.png)
+
+  - 똑똑한 스케쥴러는 T1/T2가 동시에 실행되지 않는다면 데드락 발생하지 않는다는걸 암
+
+  ![1558514013676](../../typora_images/1558514013676.png)
+
+  - 비슷한 상황, T3도 동시에 실행되면 안되기 때문에 전체 실행 시간이 늘어남
+
+### Detect and Recover
+
+- 데드락이 가끔은 발생하도록 허용하고, 발생할 시 특정 행동 수행
+  - 예시)  운영체제가 멈추면, 재부팅
+- 다수의 데이터베이스 시스템이 이 방식 채용
+  - Deadlock Detector가 주기적으로 실행
+  - Resource Graph를 만들어 사이클이 생기는지 확인
+  - 데드락 발생시 시스템 재시작
