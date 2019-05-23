@@ -1,0 +1,543 @@
+-- Queries for kleague Sample Database
+-- Version 1.0
+
+USE kleague;
+
+DESCRIBE PLAYER;
+DESCRIBE TEAM;
+DESCRIBE STADIUM;
+DESCRIBE SCHEDULE;
+
+
+-------------------------------------------
+-- 1. DML Algebra : 집합 연산자
+-------------------------------------------
+
+-- Q1: UNION 문
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+UNION 
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K07';
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' OR TEAM_ID = 'K07';
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID IN ('K02','K07');
+
+------------------------------
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+UNION 
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	POSITION = 'GK'; 
+
+------------------------------
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+UNION 	ALL
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	POSITION = 'GK'
+ORDER	BY 1, 2, 3, 4, 5;
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+UNION 	DISTINCT
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	POSITION = 'GK'
+ORDER	BY 1, 2, 3, 4, 5;
+
+------------------------------
+
+SELECT 	'P' 구분코드, POSITION 포지션_팀명, AVG(HEIGHT) 평균키 
+FROM 	PLAYER 
+GROUP 	BY POSITION 
+UNION 
+SELECT 	'T' 구분코드, TEAM_ID 포지션_팀명, AVG(HEIGHT) 평균키 
+FROM 	PLAYER 
+GROUP 	BY TEAM_ID 
+ORDER 	BY 1;
+
+
+-- Q2: MINUS 문
+
+/* 에러: MySQL에서는 MINUS 연산을 지원 안함 */
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 		
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+MINUS
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	POSITION = 'MF' 
+ORDER 	BY 1, 2, 3, 4, 5; 
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' AND POSITION <> 'MF' 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' AND 
+		PLAYER_ID NOT IN (	SELECT  PLAYER_ID
+							FROM 	PLAYER 
+							WHERE	POSITION = 'MF') 
+ORDER 	BY 1, 2, 3, 4, 5; 
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER X
+WHERE 	X.TEAM_ID = 'K02' AND 
+		NOT EXISTS (	SELECT 	1 
+						FROM 	PLAYER Y 
+						WHERE 	Y.PLAYER_ID = X.PLAYER_ID AND POSITION = 'MF') 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+
+-- Q3: INTERSECT 문
+
+/* 에러: MySQL에서 지원 안함 */
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' 
+INTERSECT 
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	POSITION = 'GK' 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER 
+WHERE 	TEAM_ID = 'K02' AND POSITION = 'GK' 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER
+WHERE 	TEAM_ID = 'K02' AND 
+		PLAYER_ID IN (	SELECT 	PLAYER_ID 
+						FROM 	PLAYER 
+						WHERE 	POSITION = 'GK') 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+SELECT 	TEAM_ID 팀코드, PLAYER_NAME 선수명, POSITION 포지션, BACK_NO 백넘버, HEIGHT 키 
+FROM 	PLAYER X
+WHERE 	X.TEAM_ID = 'K02' AND 
+		EXISTS (	SELECT 	1 
+					FROM 	PLAYER Y 
+					WHERE 	Y.PLAYER_ID = X.PLAYER_ID AND Y.POSITION = 'GK') 
+ORDER 	BY 1, 2, 3, 4, 5;
+
+
+-------------------------------------------
+-- 2. DML Algebra : 순수 관계 연산자 (JOIN)
+-------------------------------------------
+
+-------------------------------------------
+-- 2.1 JOIN의 문법
+-------------------------------------------
+
+-- Q4: JOIN의 문법
+
+/* FROM 절 조인조건 (ON 조인 조건절) */
+SELECT 	TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 				 
+FROM 	TEAM JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY STADIUM_ID;
+
+/* FROM 절 조인조건 (USING 조인 속성 리스트절) */
+SELECT 	TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME
+FROM 	TEAM JOIN STADIUM USING (STADIUM_ID) 
+ORDER 	BY STADIUM_ID;
+
+/* WHERE 절 조인 조건 */
+SELECT 	TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM, STADIUM 
+WHERE 	TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY STADIUM_ID;
+
+------------------------------
+
+/* FROM 절 조인조건 (ON 조인 조건절) */
+SELECT	PLAYER.PLAYER_NAME 선수명, TEAM.TEAM_NAME 소속팀명 
+FROM 	PLAYER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID;
+
+/* FROM 절 조인조건 (USING 조인 속성 리스트절) */
+SELECT	PLAYER.PLAYER_NAME 선수명, TEAM.TEAM_NAME 소속팀명
+FROM 	PLAYER JOIN TEAM USING (TEAM_ID);
+
+/* WHERE 절 조인 조건 */
+SELECT 	PLAYER.PLAYER_NAME 선수명, TEAM.TEAM_NAME 소속팀명 		
+FROM 	PLAYER, TEAM 
+WHERE 	PLAYER.TEAM_ID = TEAM.TEAM_ID;
+
+
+-- Q5: JOIN의 문법 (table alias 사용)
+
+SELECT 	P.PLAYER_NAME 선수명, P.BACK_NO 백넘버, P.TEAM_ID 팀코드, T.TEAM_NAME 팀명, T.REGION_NAME 연고지 
+FROM 	PLAYER P JOIN TEAM T ON P.TEAM_ID = T.TEAM_ID; 
+
+SELECT 	P.PLAYER_NAME 선수명, P.BACK_NO 백넘버, P.TEAM_ID 팀코드, T.TEAM_NAME 팀명, T.REGION_NAME 연고지 
+FROM 	PLAYER P, TEAM T 
+WHERE 	P.TEAM_ID = T.TEAM_ID;
+
+------------------------------
+
+SELECT 	P.PLAYER_NAME 선수명, P.BACK_NO 백넘버, T.REGION_NAME 연고지, T.TEAM_NAME 팀명 
+FROM 	PLAYER P JOIN TEAM T ON P.TEAM_ID = T.TEAM_ID
+WHERE 	P.POSITION = 'GK'
+ORDER 	BY P.BACK_NO; 
+
+SELECT 	P.PLAYER_NAME 선수명, P.BACK_NO 백넘버, T.REGION_NAME 연고지, T.TEAM_NAME 팀명 
+FROM 	PLAYER P, TEAM T 
+WHERE 	P.TEAM_ID = T.TEAM_ID AND P.POSITION = 'GK'
+ORDER 	BY P.BACK_NO; 
+
+------------------------------
+
+SELECT 	T.REGION_NAME, T.TEAM_NAME, T.STADIUM_ID, S.STADIUM_NAME, S.SEAT_COUNT 
+FROM 	TEAM T JOIN STADIUM S ON T.STADIUM_ID = S.STADIUM_ID;
+
+
+-- Q6: 다중 테이블 JOIN
+
+SELECT 	P.PLAYER_NAME 선수명, P.POSITION 포지션, T.REGION_NAME 연고지, T.TEAM_NAME 팀명, S.STADIUM_NAME 구장명 
+FROM 	PLAYER P JOIN TEAM T ON P.TEAM_ID = T.TEAM_ID
+		JOIN STADIUM S ON T.STADIUM_ID = S.STADIUM_ID 
+ORDER 	BY 선수명;
+
+SELECT 	P.PLAYER_NAME 선수명, P.POSITION 포지션, T.REGION_NAME 연고지, T.TEAM_NAME 팀명, S.STADIUM_NAME 구장명 
+FROM 	TEAM T JOIN STADIUM S ON T.STADIUM_ID = S.STADIUM_ID 
+		JOIN PLAYER P ON P.TEAM_ID = T.TEAM_ID
+ORDER 	BY 선수명;
+
+SELECT 	P.PLAYER_NAME 선수명, P.POSITION 포지션, T.REGION_NAME 연고지, T.TEAM_NAME 팀명, S.STADIUM_NAME 구장명 
+FROM 	PLAYER P, TEAM T, STADIUM S 
+WHERE 	P.TEAM_ID = T.TEAM_ID AND T.STADIUM_ID = S.STADIUM_ID 
+ORDER 	BY 선수명;
+
+------------------------------
+
+SELECT 	ST.STADIUM_NAME, SC.STADIUM_ID, SCHE_DATE, HT.TEAM_NAME, AT.TEAM_NAME, HOME_SCORE, AWAY_SCORE 
+FROM 	SCHEDULE SC JOIN STADIUM ST ON SC.STADIUM_ID = ST.STADIUM_ID 
+		JOIN TEAM HT ON SC.HOMETEAM_ID = HT.TEAM_ID 
+		JOIN TEAM AT ON SC.AWAYTEAM_ID = AT.TEAM_ID 
+WHERE 	HOME_SCORE >= AWAY_SCORE + 3;
+
+SELECT 	ST.STADIUM_NAME, SC.STADIUM_ID, SCHE_DATE, HT.TEAM_NAME, AT.TEAM_NAME, HOME_SCORE, AWAY_SCORE 
+FROM 	SCHEDULE SC, STADIUM ST, TEAM HT, TEAM AT 
+WHERE 	HOME_SCORE >= AWAY_SCORE + 3 
+		AND SC.STADIUM_ID = ST.STADIUM_ID 
+		AND SC.HOMETEAM_ID = HT.TEAM_ID 
+		AND SC.AWAYTEAM_ID = AT.TEAM_ID;
+
+
+-------------------------------------------
+-- 2.2 FROM 절 JOIN 조건 표현법의 다양한 조인
+-------------------------------------------
+
+-- Q7: FROM 절 조인 조건 표현법의 다양한 조인
+
+ALTER TABLE TEAM
+MODIFY COLUMN STADIUM_ID	CHAR(3);		/* NOT NULL을 제거 */
+
+INSERT INTO TEAM (TEAM_ID, REGION_NAME, TEAM_NAME, STADIUM_ID) VALUES 
+('K16','서울','MBC청룡', NULL),
+('K17','인천','삼미슈퍼스타즈', NULL);
+
+SELECT	TEAM_ID, TEAM_NAME, STADIUM_ID
+FROM	TEAM;
+
+SELECT	STADIUM_ID, STADIUM_NAME
+FROM	STADIUM;
+
+------------------------------
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM INNER JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM LEFT JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM LEFT OUTER JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME
+FROM 	TEAM RIGHT JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME
+FROM 	TEAM RIGHT OUTER JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+/* 에러: MySQL은 Full Join을 지원하지 않음 */
+SELECT 	TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME
+FROM 	TEAM FULL JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+------------------------------
+
+SELECT 	STADIUM.STADIUM_ID, STADIUM_NAME, SEAT_COUNT, TEAM_ID, TEAM_NAME 
+FROM 	STADIUM INNER JOIN TEAM ON STADIUM.STADIUM_ID = TEAM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	STADIUM.STADIUM_ID, STADIUM_NAME, SEAT_COUNT, TEAM_ID, TEAM_NAME 
+FROM 	STADIUM LEFT OUTER JOIN TEAM ON STADIUM.STADIUM_ID = TEAM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+SELECT 	STADIUM.STADIUM_ID, STADIUM_NAME, SEAT_COUNT, TEAM_ID, TEAM_NAME 
+FROM 	STADIUM RIGHT OUTER JOIN TEAM ON STADIUM.STADIUM_ID = TEAM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+------------------------------
+
+-- Q8: ON Join과 USING Join의 차이 (INNER JOIN)
+
+WITH TEAM_TEMP AS
+(
+	SELECT	TEAM_ID, TEAM_NAME, STADIUM_ID
+    FROM	TEAM
+),
+STADIUM_TEMP AS
+(
+	SELECT 	STADIUM_ID, STADIUM_NAME, SEAT_COUNT
+    FROM	STADIUM
+)
+SELECT	*
+FROM	TEAM_TEMP T JOIN STADIUM_TEMP S ON T.STADIUM_ID = S.STADIUM_ID;
+
+WITH TEAM_TEMP AS
+(
+	SELECT	TEAM_ID, TEAM_NAME, STADIUM_ID
+    FROM	TEAM
+),
+STADIUM_TEMP AS
+(
+	SELECT 	STADIUM_ID, STADIUM_NAME, SEAT_COUNT
+    FROM	STADIUM
+)
+SELECT	*
+FROM	TEAM_TEMP T JOIN STADIUM_TEMP S USING (STADIUM_ID);
+
+------------------------------
+
+-- Q9: OUTER JOIN의 값, 조인 속성의 값은 COALESCE() 함수의 결과
+
+CREATE TABLE R ( A INT, B CHAR(1) );
+CREATE TABLE S ( A INT, C CHAR(1) );
+INSERT INTO R VALUES (1,'x'), (2,'y');
+INSERT INTO S VALUES (2,'z'), (3,'w');
+
+SELECT * FROM R LEFT JOIN S USING (A);
+SELECT * FROM R RIGHT JOIN S USING (A);
+
+
+-------------------------------------------
+-- 2.3 NATURAL JOIN
+-------------------------------------------
+
+SELECT 	TEAM_NAME, STADIUM_ID, STADIUM_NAME 	/* 공톻되는 애츠리뷰트가 STADIUM_ID, ADDRESS, DDD, TEL 네 개가 있음. */ 
+FROM 	TEAM NATURAL JOIN STADIUM 				/* 이 네 개 값이 모두 일치하는 경우는 없으므로, 결과가 공집합 */
+ORDER 	BY STADIUM_ID;
+
+ALTER TABLE STADIUM
+DROP COLUMN ADDRESS,
+DROP COLUMN DDD,
+DROP COLUMN TEL;
+
+SELECT 	TEAM_NAME, STADIUM_ID, STADIUM_NAME 	/* 공톻되는 애츠리뷰트는 STADIUM_ID만 존재 */ 
+FROM 	TEAM NATURAL JOIN STADIUM 
+ORDER 	BY STADIUM_ID;
+
+------------------------------
+
+/* INNER JOIN의 경우, 결과에 STADIUM_ID가 두 번 나옴 */
+SELECT 	* 
+FROM 	TEAM INNER JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID; 	
+
+/* NATURAL JOIN의 경우, 결과에 STADIUM_ID가 맨 앞에 한 번만 나옴 */
+SELECT 	* 
+FROM 	TEAM NATURAL JOIN STADIUM; 
+
+
+-------------------------------------------
+-- 2.4 CROSS JOIN (Cartesian Product)
+-------------------------------------------
+
+SELECT  TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM CROSS JOIN STADIUM							/* 조인 조건 혹은 조인 애트르비튜를 사용하지 않음 */
+ORDER 	BY TEAM_ID;
+
+/* 주의: CROSS JOIN에 조인 조건 혹은 조인 애트르비튜를 사용하면, JOIN 혹은  INNER JOIN과 같은 결과임 */
+SELECT  TEAM_ID, TEAM_NAME, TEAM.STADIUM_ID, STADIUM_NAME 
+FROM 	TEAM CROSS JOIN STADIUM ON TEAM.STADIUM_ID = STADIUM.STADIUM_ID 
+ORDER 	BY TEAM_ID;
+
+
+-------------------------------------------
+-- 2.5 DML Algebra : SELF JOIN
+-------------------------------------------
+
+-- Q10: Self Join
+
+USE		company;
+
+SELECT	e.Ssn, CONCAT(e.Fname, ', ', e.Minit, '. ', e.Lname) AS Employee, 
+		mgr.Ssn, CONCAT(mgr.Fname, ', ', mgr.Minit, '. ', mgr.Lname) AS Manager
+FROM  	employee e JOIN employee mgr on e.Super_ssn=mgr.ssn
+where	mgr.Fname='Franklin' and mgr.Lname='Wong';
+
+SELECT	e.Ssn, CONCAT(e.Fname, ', ', e.Minit, '. ', e.Lname) AS Employee, 
+		mgr.Ssn, CONCAT(mgr.Fname, ', ', mgr.Minit, '. ', mgr.Lname) AS Manager
+FROM  	employee e LEFT JOIN employee mgr on e.Super_ssn=mgr.ssn;
+
+SELECT 	e.Ssn, CONCAT(e.Fname, ', ', e.Minit, '. ', e.Lname) AS Employee, 
+		mgr.Ssn, CONCAT(mgr.Fname, ', ', mgr.Minit, '. ', mgr.Lname) AS Manager,
+        mgrOfMgr.ssn, CONCAT(mgrOfMgr.Fname, ', ', mgrOfMgr.Minit, '. ', mgrOfMgr.Lname) AS ManagerOfManager
+FROM	employee e LEFT JOIN employee mgr on e.Super_ssn=mgr.ssn
+		LEFT JOIN employee mgrOfMgr on mgr.Super_ssn = mgrOfMgr.ssn;
+
+
+-------------------------------------------
+-- 3. CTE와 With 절
+-------------------------------------------
+
+-------------------------------------------
+-- 3.1 CTE
+-------------------------------------------
+
+USE		kleague;
+
+-- Q11: CTE와 WITH 절
+
+WITH 	TEMP AS 
+(
+		SELECT	TEAM_NAME, STADIUM_ID, STADIUM_NAME
+		FROM 	TEAM JOIN STADIUM USING (STADIUM_ID)
+)
+SELECT	TEMP.TEAM_NAME, TEMP.STADIUM_NAME
+FROM	TEMP;
+
+
+-- Q12 : Multiple CTE
+-- SCHEDULE 테이블에서 STADIUM_ID, HOMETEAM_ID, AWAYTEAM_ID를 
+-- 각각 경기장명, 홈팀명, 어웨이팀명으로 출력하시오.
+
+WITH TEMP1_SCHEDULE AS 			/* 홈팀명을 갖는 SCHEDULE */
+(
+		SELECT 	S.STADIUM_ID, SCHE_DATE, TEAM_NAME AS HOMETEAM_NAME, AWAYTEAM_ID, 
+				HOME_SCORE, AWAY_SCORE
+		FROM	SCHEDULE S JOIN TEAM T ON S.HOMETEAM_ID = T.TEAM_ID
+),
+TEMP2_SCHEDULE AS				/* 홈팀명, 어웨이팀명을 갖는 SCHEDULE */
+(
+		SELECT	T1.STADIUM_ID, SCHE_DATE, HOMETEAM_NAME, TEAM_NAME AS AWAYTEAM_NAME,
+				HOME_SCORE, AWAY_SCORE
+		FROM	TEMP1_SCHEDULE T1 JOIN TEAM T ON T1.AWAYTEAM_ID = T.TEAM_ID
+)
+SELECT	STADIUM_NAME 경기장명, SCHE_DATE, HOMETEAM_NAME 홈팀명, AWAYTEAM_NAME 어웨이팀명, 
+		HOME_SCORE, AWAY_SCORE
+FROM	TEMP2_SCHEDULE T2 JOIN STADIUM S ON T2.STADIUM_ID = S.STADIUM_ID;
+
+
+-------------------------------------------
+-- 3.2 Recursive CTE
+-------------------------------------------
+
+-- Q13: 수열 출력
+
+WITH RECURSIVE cte AS 
+(
+	SELECT  1 AS n
+	UNION	ALL
+	SELECT  n + 1 FROM cte WHERE n < 5
+)
+SELECT 	* FROM 	cte;
+
+
+-- Q14: CTE와 Type casting
+
+WITH RECURSIVE cte AS 
+(
+	SELECT	1 AS n, 'abc' AS str			/* 예러: str의 데이터 타입은 CHAR(3) */
+	UNION	ALL
+	SELECT	n + 1, CONCAT(str, str) FROM cte WHERE n < 3
+)
+SELECT * FROM cte;
+
+WITH RECURSIVE cte AS 
+(
+	SELECT	1 AS n, CAST('abc' AS CHAR(30)) AS str
+	UNION 	ALL
+	SELECT	n + 1, CONCAT(str, str) FROM cte WHERE n < 4
+)
+SELECT	* FROM cte;
+
+
+-------------------------------------------
+-- 3.3 Recursive CTE의 사용 예
+-------------------------------------------
+
+-- Q15: Fibonacci Series
+
+WITH RECURSIVE fibonacci (n, fib_n, next_fib_n) AS 
+(
+	SELECT  1, 0, 1
+	UNION  ALL
+	SELECT  n + 1, next_fib_n, fib_n + next_fib_n 
+	FROM   fibonacci 
+	WHERE n < 10
+)
+SELECT 	*  FROM 	fibonacci;
+
+
+-- Q16: Data Series Generation
+
+WITH RECURSIVE dates (date) AS 
+(
+	SELECT	CAST(MIN(SCHE_DATE) AS DATE) FROM schedule		/* Casting 하지 않으면 에러 */
+	UNION	ALL
+	SELECT	date + INTERVAL 1 DAY
+	FROM	dates
+	WHERE	date + INTERVAL 1 DAY <= '2012-04-30' 
+)
+SELECT	dates.date, COALESCE(COUNT(*),0) AS NO_OF_GAMES
+FROM	dates LEFT JOIN schedule ON dates.date = schedule.SCHE_DATE
+GROUP	BY dates.date
+ORDER	BY dates.date;
+
+
+-- Q17: Hierarchical Query
+
+USE		company;
+
+WITH RECURSIVE employee_paths (Ssn, Fname, Minit, Lname, path) AS
+(
+		SELECT	Ssn, Fname, Minit, Lname, CAST(Ssn AS CHAR(200))
+        FROM	employee
+        WHERE	Super_ssn IS NULL
+        UNION	ALL
+        SELECT	e.Ssn, e.Fname, e.Minit, e.Lname, CONCAT(ep.path, ':', e.Ssn)
+        FROM	employee_paths ep join employee e ON ep.Ssn = e.Super_ssn
+)
+SELECT	*
+FROM	employee_paths
+ORDER	BY path;
