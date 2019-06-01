@@ -200,7 +200,57 @@
   - 한바퀴 돌때마다 Accept Procedure 실행 : 대기 리스트에서 클라이언트 하나 제거(Serve를 위해)
     - 리스트가 비어있으면, Serve해야 할 클라이언트가 있을때 까지 Block
   - Accept Procedure가 리턴하면, 데이터전송을 위해 새로운 소켓 생성
+  - 클라이언트 소켓 주소를 이용해서(Connection Establishment 단계에서 획득) Remote 소켓 주소를 채움
+  - 이제 클라이언트와 서버간에 데이터 교환 가능
+- 클라이언트 프로세스
+  - UDP 버전과 유사, 대신 클라이언트 Data-Transfer Box가 각 케이스마다 정의되어있어야 함
 
+![1559021519659](../../typora_images/1559021519659.png)
 
+#### Concurrent Communication
 
-68 슬라이드까지
+- Concurrent한 서버는 한번에 여러개의 클라이언트 요청을 처리할수있음
+  - 하위 프로그래밍 언어의 규칙에 따라 가능
+  - C : 서버가 여러개의 자식 프로세스를 만들고, 각 자식 프로세스가 클라이언트의 요청을 받음
+  - Java : 스레딩 기법사용, 각 스레드가 클라이언트의 요청을 받음
+
+## Iterative Programming in C
+
+### General Issues
+
+- 통신에 있어서 소켓의 역할을 이해하는것이 중요
+- 버퍼가 없고, 데이터를 저장할 수 없음
+- Data Send / Receive가 둘다 안됨
+- 소켓은 레퍼런스/라벨의 역할을 함
+- 버퍼, 필요한 변수들은 운영체제 안에 생성됨
+
+### Socket Structure In C
+
+- 소켓을 Structure로 정의
+- 소켓 주소 자체가 다섯개의 필드로 구성된 구조체임
+
+![1559021902199](../../typora_images/1559021902199.png)
+
+- Family
+  - Family 프로토콜 (주소와 포트번호를 어떻게 해석할지)
+  - 일반적인 예시
+    - PF_INET (현재 인터넷)
+    - PF_INET6 (다음세대 인터넷)
+- Type
+  - SOCK_STREAM (TCP)
+  - SOCK_DGRAM (UDP)
+  - SOCK_SEQPACKET (SCTP)
+  - SOCK_RAW (IP의 서비스를 바로 사용하는 애플리케이션을 위함)
+- Protocol
+  - Family 안의 자세한 프로토콜
+  - TCP/IP : 0
+- Local Socket Address
+  - 소켓 주소가 구조체임
+    - Length
+    - Family : PF_INET for TCP/IP
+    - Port Number : 프로세스 정의
+    - IP 주소 : 프로세스가 실행되는 호스트 정의
+    - 사용하지않는 필드
+
+- Remote Socket Address
+  - Local과 같은 구조

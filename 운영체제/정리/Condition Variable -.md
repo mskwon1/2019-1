@@ -198,6 +198,39 @@
   - reader가 writer를 starve시킬 가능성이 높음
   - writer가 대기중일때 다른 새로운 reader들이 못들어오게 해야함
 
+### Basic Solution(Using Condition Variable)
+
+- 여기서 시험문제 하나 나옴
+- Writer가 없을 때 Reader가 데이터베이스에 접근 가능
+- Writer는 Reader/Writer가 없을 때 데이터베이스에 접근 가능
+- 한번에 하나의 스레드만 상태 변수를 조종할 수 있음
+
+#### 기본구조
+
+- Reader() 
+  - Writer가 없을때까지 기다리고
+  - 데이터베이스에 접근한뒤
+  - Check Out하면서 기다리고 있는 Writer를 깨움
+- Writer()
+  - Active Reader/Writer가 없을때까지 기다리고
+  - 데이터베이스에 접근한뒤
+  - Check Out하면서 기다리고 있는 Readers/Writer를 깨움
+
+- State Variables
+  - AR : Active Reader의 수 / 초기값 0
+  - WR : Wating Reader의 수 / 초기값 0
+  - AW : Active Writer의 수 / 초기값 0
+  - WW : Waiting Writer의 수 / 초기값 0
+  - 상태 okToRead = NIL
+  - 상태 okToWrite = NIL
+
+![1558944832995](../../typora_images/1558944832995.png)
+
+![1558944851668](../../typora_images/1558944851668.png)
+
+- R1, R2, W1, R3 순으로 온다고 가정
+  ![1559019336811](../../typora_images/1559019336811.png)
+
 ### The Dining Philosophers
 
 - 5명의 철학자가 테이블을 둘러싸고 있다고 가정
@@ -232,9 +265,40 @@
 
 - Zemaphore 라는걸 만듬
   ![1558511754677](../../typora_images/1558511754677.png)![1558511777857](../../typora_images/1558511777857.png)
-
 - 값이 0보다 작아질 수 없음
 - 구현하기 쉽고, 현재의 리눅스 구현과 일치
+
+## Semaphore에서 Monitor를 만들수 있을까?
+
+- 보기에는 쉬움 : Mutex 사용하기
+
+![1559019442758](../../typora_images/1559019442758.png)
+
+- Wait가 Lock을 가진채로 Sleep에 들어갈 가능성이 있음
+
+![1559019574336](../../typora_images/1559019574336.png)
+
+- 상태변수는 History가 없고, Semaphore는 있다
+  - 스레드 하나가 Signal하고, 아무도 안기다리고 있으면?
+
+- 슬라이드 참조 너무 어려움 ㅅㅂ;
+
+- 결론
+
+  - 모니터는 프로그램의 로직을 뜻함
+
+    - 필요하면 Wait
+    - 뭔가 바꾸면 Signal, 다른 스레드가 일하도록
+
+  - Monitor-Based 프로그램의 기본 구조
+
+    ![1559020353524](../../typora_images/1559020353524.png)
+
+  - Lock + 하나 이상의 Condition Variables
+
+    - 공유 데이터에 접근할때 lock을 꼭 획득하고
+    - Critical Section 안에서 대기해야할때 Condition Variable 사용
+      - Wait(), Signal(), Broadcast()
 
 # Common Concurrency Problems
 
@@ -311,7 +375,7 @@
 ![1558513294892](../../typora_images/1558513294892.png)
 
 - livelock
-  - 계속해서 특정 코드를 일정하게 시도하지만 성과가없는 경우(반복)
+  - 계속해서 특정 코드를 일정하게 시도하지만 **성과가없는 경우**(반복)
   - 해결법 : loop back하기전에 랜덤시간 딜레이를 추가함
 
 ### Mutual Exclusion
@@ -348,6 +412,15 @@
   ![1558514013676](../../typora_images/1558514013676.png)
 
   - 비슷한 상황, T3도 동시에 실행되면 안되기 때문에 전체 실행 시간이 늘어남
+
+#### Banker's Algorithm
+
+![1558943592997](../../typora_images/1558943592997.png)
+
+- ABCD를 다 도와주자
+- Safe : 망하기 전
+- Unsafe : 다 망함
+- 안전상태를 유지할 수 있는 요구만을 수락하고, 불안전 상태를 초래할 요구는 나중에 만족될 수 있을때까지 계속 거절
 
 ### Detect and Recover
 
