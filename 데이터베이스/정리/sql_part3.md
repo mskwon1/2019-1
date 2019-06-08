@@ -227,6 +227,7 @@
     
     - 관계대수로 표현해보기
   - 속성 이름이 같으면 USING으로 쓰는게 보기 편함
+    
     - 마지막은 좋은 표현이라고 볼 수 없음
     
   - 다중 테이블 조인 3
@@ -294,3 +295,84 @@
 
 ![1559186873548](../../typora_images/1559186873548.png)
 
+### SELF JOIN
+
+- 동일 테이블 사이의 조인
+- 반드시 테이블 별명을 접두사로 사용해야 함
+  ![1559624465880](../../typora_images/1559624465880.png)
+- 예제 1 : 사원, 사원의 상위 관리자 및 차상위 관리자의 사번을 검색하라
+  ![1559624520019](../../typora_images/1559624520019.png)
+- 예제 2 : 사원, 사원의 상위 관리자 및 차상위 관리자의 사번을 검색하라. 단, 상위관리자가 없는 사원도 출력
+  ![1559624558548](../../typora_images/1559624558548.png)
+
+## CTE, WITH 절
+
+### Common CTE
+
+- CTE
+  - 질의 내에서, 이름을 갖는 중간결과(temporary result)
+    - CTAS : 스키마에 테이블 생성
+    - CTE : 스키마에 중간결과 생성 X
+  - WITH 절을 사용해 이름 부여
+- 문법
+  ![1559624646382](../../typora_images/1559624646382.png)
+- MySQL Version 8부터 제공하는 기능
+- 예제 : 검색 중간 결과의 임시 저장
+  ![1559624691877](../../typora_images/1559624691877.png)
+- Multiple CTEs :
+  SCHEDULE 테이블에서 STADIUM_ID, HOMETEAM_ID, AWAYTEAM_ID를 각각 경기장명, 홈팀명, 어웨이팀명으로 출력하시오
+  ![1559625078475](../../typora_images/1559625078475.png)
+
+### Recursive CTE
+
+- Self-Referencing CTE
+  ![1559625175300](../../typora_images/1559625175300.png)
+
+- MySQL에서 Recursive CTE 제어
+
+  - 시스템 변수를 이용해 실행의 최대치를 제어
+    - cte_max_recursion_depth : 디폴트 = 100
+    - Max_execution_time : 디폴트 = 1초
+    - MAX_EXECUTION_TIME : optimizer hint
+
+  ![1559625304027](../../typora_images/1559625304027.png)
+
+- Recursive CTE와 Type Casting
+
+  - 타겟 리스트에서 스트링 변수가 사용될 때
+
+    - Recursive SELECT에서 컬럼의 길이 = non-Recursive SELECT에서의 길이
+      ![1559625356609](../../typora_images/1559625356609.png)
+      - 길이 = 3
+    - str 타입을 임시로 변경
+      ![1559626813475](../../typora_images/1559626813475.png)
+
+  - 사용예제 : Fibonacci Series
+    ![1559626842645](../../typora_images/1559626842645.png)
+
+  - 사용예제 : Data Series Generation (MySQL)
+
+    - 출력에 몇몇 날짜 누락
+
+      ![1559626909579](../../typora_images/1559626909579.png)
+
+    - 원하는 범위 내 모든 날짜 출력
+      ![1559626949967](../../typora_images/1559626949967.png)
+
+    - 최종결과
+      ![1559626977015](../../typora_images/1559626977015.png)
+
+  - 사용예제 : Hierarchical Query
+
+    - 계층형 데이터 : 동일한 테이블에 계층적으로 상위와 하위가 포함된 데이터
+
+    - 계층형 질의 
+
+      - 테이블에 계층형 데이터가 존재하는 경우 데이터를 조회하기 위해 계층형 질의 사용
+      - DBMS 벤더 / 버전에 따라 다른 방법으로 지원
+
+      ![1559627457811](../../typora_images/1559627457811.png)
+
+      ![1559627469510](../../typora_images/1559627469510.png)
+
+      

@@ -279,8 +279,9 @@
 ![1559019574336](../../typora_images/1559019574336.png)
 
 - 상태변수는 History가 없고, Semaphore는 있다
-  - 스레드 하나가 Signal하고, 아무도 안기다리고 있으면?
-
+  
+- 스레드 하나가 Signal하고, 아무도 안기다리고 있으면?
+  
 - 슬라이드 참조 너무 어려움 ㅅㅂ;
 
 - 결론
@@ -299,6 +300,75 @@
     - 공유 데이터에 접근할때 lock을 꼭 획득하고
     - Critical Section 안에서 대기해야할때 Condition Variable 사용
       - Wait(), Signal(), Broadcast()
+  
+- 임시노트
+
+- P. 33
+  Reader() {
+      lock.Acquire();
+
+      while(AW + WW) > 0 ==> 누가 쓰고 있다는 것임
+          WR++;
+          okToRead.wait(&lock); // Sleep on cond var 
+          WR--;
+
+  
+
+
+  ….
+
+  AR--; // No longer active 
+  if (AR == 0 && WW > 0) // AR이 0이라는 것은 마지막 리더라는 뜻
+      okToWrite.signal(); // Wake up one writer 
+  lock.Release();
+
+  
+
+     P. 36
+
+  lock.Acquire(); ==> 크리티컬 섹션
+
+  R1, R2 모두 읽음
+  W1 도착 ==> Active Reader가 두명이나 존재하기 때문에 대기
+  R3  도착 ==> W1때문에 대기
+  R2가 끝남 ==> 마지막 리더가 아니기 때문에 그냥 통과
+  R1이 끝남 ==> 마지막 리더임, W1이 있기 때문에 신호를 보내서 깨움
+  W1 신호를 받아 깨어남 ==> W1이 ACTIVE해짐, W1이 진행
+  W1이 끝남 ==> Writer가 있으면 writer를 깨우는데 reader밖에 없음
+                       대기중인 reader를 모두 꺠움
+  R3 실행
+  R3 끝남
+
+  
+
+  만약 마지막 리더인지 확인도 안하고 그냥 깨운다면?
+  Writer가 okToWrit.wait에서 깼다가 다시 잠듬
+
+  마지막 리더가 여러 writer를 다 깨운다면?
+  Lock.acquire();에서 서로 경쟁, 하나만 통과 (lock.release();)
+  어차피 또 writer가 okToWrit.wait 에서 걸러짐
+
+
+  마지막 리더가 Reader를 깨운다면?
+  While (AW+WW) 에서 걸러짐 ==> writer와 reader가 모두 잠들게 되는 상황
+
+  
+
+  모니터 = 락 1개와 컨디션 변수 여러개를 써서 기다리는 상황을 연출하면 됨
+
+
+     P. 80
+
+  세마포어로 컨디션 조건을 만들어보자
+  Wait() 함수(잠들게)
+  Signal() 함수(깨움)
+
+  잠들때 락을 풀어줘야함
+  깨어났을때 락을 가지고 있어야 함
+
+  
+
+     P. 82
 
 # Common Concurrency Problems
 
